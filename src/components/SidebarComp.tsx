@@ -8,8 +8,12 @@ import {
   HiTable,
   HiUser,
 } from "react-icons/hi";
+import useControlGasto from "../hooks/useControlGasto";
 
 const SidebarComp = () => {
+
+  const {handleClickModal}=useControlGasto()
+
   return (
     <Sidebar aria-label="Sidebar with multi-level dropdown example">
         <p className="text-3xl md:text-2xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
@@ -32,7 +36,7 @@ const SidebarComp = () => {
             <Sidebar.Item icon={HiShoppingBag}>
               <Link to='/otros'>Otros</Link> 
             </Sidebar.Item>
-            <Sidebar.Item href='#' icon={HiArrowSmRight} onClick={console.log('hola mundo')}>
+            <Sidebar.Item href='#' icon={HiArrowSmRight} onClick={handleClickModal}>
               Cerrar Sesión
             </Sidebar.Item>
             

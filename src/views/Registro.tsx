@@ -35,6 +35,11 @@ const Registro = () => {
    
   }
 
+  const borrarErrores=()=>{
+   
+    setErrores([])
+  }
+
   return (
     <>
       <h1 className="text-2xl md:text-4xl lg:text-3xl text-gray-300 font-semibold inter-var text-center " style={{
@@ -107,7 +112,7 @@ const Registro = () => {
         </div>
 
         <nav className="mt-5">
-          <Link to="/auth/login" className="block text-gray-400 font-semibold">¿Ya tienes cuenta? Inicia sesión</Link>
+          <Link onClick={borrarErrores} to="/auth/login" className="block text-gray-400 font-semibold">¿Ya tienes cuenta? Inicia sesión</Link>
         </nav>
 
         

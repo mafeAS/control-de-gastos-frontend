@@ -1,8 +1,8 @@
 import {useContext} from "react";
 import ControlContext from "../context/ControlProvider";
 
-const useControl=()=>{
+const useControlGasto=()=>{
     return useContext(ControlContext)
 }
 
-export default useControl
+export default useControlGasto

@@ -33,6 +33,11 @@ const Login = () => {
    
   }
 
+  const borrarErrores=()=>{
+   
+    setErrores([])
+  }
+
 
   return (
     <>
@@ -82,7 +87,7 @@ const Login = () => {
       </div>
 
       <nav className="mt-5">
-        <Link to="/auth/registro" className="block text-gray-400 font-semibold">¿Aún no tienes una cuenta? ¡Crea la tuya!</Link>
+        <Link onClick={borrarErrores} to="/auth/registro" className="block text-gray-400 font-semibold" >¿Aún no tienes una cuenta? ¡Crea la tuya!</Link>
       </nav>
 
       
