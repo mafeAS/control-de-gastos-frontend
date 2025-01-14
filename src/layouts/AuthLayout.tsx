@@ -8,7 +8,6 @@ const AuthLayout = () => {
 
   const {errores}=useControl()
 
-  console.log(errores)
 
   return (
     <div className="h-screen w-full relative overflow-hidden bg-slate-900 flex flex-col items-center justify-center">

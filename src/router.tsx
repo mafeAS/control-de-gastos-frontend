@@ -8,6 +8,7 @@ import Estadisticas from "./views/Estadisticas";
 import Nicolas from "./views/Nicolas";
 import Usuario from "./views/Usuario";
 import Otros from "./views/Otros";
+import Configuracion from "./views/Configuracion";
 
 const router=createBrowserRouter([
     {
@@ -37,6 +38,11 @@ const router=createBrowserRouter([
 
         ]
 
+    },
+
+    {
+        path:'/configuracion',
+        element:<Configuracion/>
     },
 
     {

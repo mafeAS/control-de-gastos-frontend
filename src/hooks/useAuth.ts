@@ -26,6 +26,17 @@ const useAuth =({middleware,url}:useAuthProps)=>{//con esto puedo redireccionar 
     
     )
 
+    const verificarConfiguracion=async()=>{
+        const token = localStorage.getItem('AUTH_TOKEN');
+        const {data}= await clienteAxios.get('/api/configuracion',{
+            headers:{
+                Authorization:`Bearer ${token}` 
+            }
+        })
+        
+        return data.configuracion;
+    }
+
 
     const login=async(datos:{}, setErrores:(errores: string[]) => void)=>{
         try {
@@ -33,8 +44,16 @@ const useAuth =({middleware,url}:useAuthProps)=>{//con esto puedo redireccionar 
             localStorage.setItem('AUTH_TOKEN',data.token)
             setErrores([])
             await mutate()
+            const configuracionUsuario =await verificarConfiguracion();
+
+            if(!configuracionUsuario){
+                navigate('/configuracion')
+            }else{
+                navigate(url||'/')
+            }
+
           } catch (error:any) {
-            console.log(error)
+            
             setErrores(Object.values(error.response.data.errors))
             
           }
@@ -46,8 +65,16 @@ const useAuth =({middleware,url}:useAuthProps)=>{//con esto puedo redireccionar 
             localStorage.setItem('AUTH_TOKEN',data.token)
             setErrores([])
             await mutate()
+            const configuracionUsuario =await verificarConfiguracion();
+
+            if(!configuracionUsuario){
+                navigate('/configuracion')
+            }else{
+                navigate(url||'/')
+            }
+            
           } catch (error:any) {
-            console.log(error)
+         
             setErrores(Object.values(error.response.data.errors))
             
           }
@@ -69,8 +96,9 @@ const useAuth =({middleware,url}:useAuthProps)=>{//con esto puedo redireccionar 
 
 
 
-    useEffect(()=>{
+    useEffect (()=>{
         if(middleware==='guest' && url && user){
+            
             navigate(url)
         }
 

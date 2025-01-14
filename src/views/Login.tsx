@@ -1,5 +1,5 @@
 import { createRef} from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import useControl from "../hooks/useControlGasto"
 import useAuth from "../hooks/useAuth";
 
@@ -10,6 +10,8 @@ const Login = () => {
  
   const emailRef = createRef<HTMLInputElement>();
   const passwordRef = createRef<HTMLInputElement>();
+  const navigate=useNavigate()
+
   
 
  // const [errores, setErrores]=useState([])
@@ -19,6 +21,7 @@ const Login = () => {
     url:'/'
   })
 
+ 
 
   const handleSubmit=async(e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
@@ -28,8 +31,11 @@ const Login = () => {
       password: passwordRef.current?.value,
     }
 
+    
+    
     login(datos,setErrores)
 
+    
    
   }
 
@@ -41,9 +47,10 @@ const Login = () => {
 
   return (
     <>
-    <h1 className="text-2xl md:text-4xl lg:text-3xl text-gray-300 font-semibold inter-var text-center " style={{
-  textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'
-}}>INICIAR SESIÓN</h1>
+    
+      <h1 className="text-2xl md:text-4xl lg:text-3xl text-gray-300 font-semibold inter-var text-center " style={{
+        textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'
+      }}>INICIAR SESIÓN</h1>
      
 
       <div className="mt-4 w-full max-w-lg">
@@ -90,6 +97,7 @@ const Login = () => {
         <Link onClick={borrarErrores} to="/auth/registro" className="block text-gray-400 font-semibold" >¿Aún no tienes una cuenta? ¡Crea la tuya!</Link>
       </nav>
 
+  
       
   </>
   )
