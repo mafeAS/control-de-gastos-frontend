@@ -43,7 +43,7 @@ const useAuth =({middleware,url}:useAuthProps)=>{//con esto puedo redireccionar 
             const {data} =await clienteAxios.post('/api/login', datos)
             localStorage.setItem('AUTH_TOKEN',data.token)
             setErrores([])
-            await mutate()
+            mutate()
             const configuracionUsuario =await verificarConfiguracion();
 
             if(!configuracionUsuario){
