@@ -1,4 +1,6 @@
-import { createContext, ReactNode, useState } from "react"
+import { createContext, ReactNode, useEffect, useState } from "react"
+import { Frecuencia, Moneda } from "../types"
+import clienteAxios from "../config/axios"
 
 
 
@@ -6,7 +8,11 @@ type ControlContextType={
     errores: string[],
     setErrores:(errores:string[])=>void,
     modal:boolean,
-    handleClickModal:()=>void
+    handleClickModal:()=>void,
+    frecuencias:Frecuencia[],
+    monedas:Moneda[],
+    isChecked:boolean
+    handleCheckboxChange:()=>void
 }
 
 type ControlProviderProps={
@@ -19,11 +25,43 @@ const ControlProvider=({children}:ControlProviderProps)=>{
 
     const [errores, setErrores]=useState<string[]>([])
     const [modal, setModal]=useState(false)
+    const [isChecked, setIsChecked]=useState(false)
+    const [frecuencias, setFrecuencias]=useState<Frecuencia[]>([])
+    const [monedas, setMonedas]=useState<Moneda[]>([])
 
 
     const handleClickModal=()=>{
         setModal(!modal)
     }
+
+    const handleCheckboxChange=()=>{
+        setIsChecked(!isChecked)
+    }
+
+
+    const obtenerFrecuencias =async()=>{
+        try {
+            const {data}= await clienteAxios('api/frecuencia')
+            setFrecuencias(data.data)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerMonedas=async()=>{
+        try {
+            const {data}=await clienteAxios('api/moneda')
+            setMonedas(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(()=>{
+        obtenerFrecuencias()
+        obtenerMonedas()
+    },[])
    
 
     return (
@@ -32,7 +70,11 @@ const ControlProvider=({children}:ControlProviderProps)=>{
                 errores,
                 setErrores,
                 modal,
-                handleClickModal
+                handleClickModal,
+                frecuencias,
+                monedas,
+                isChecked,
+                handleCheckboxChange,
             }}>
                 {children}
         </ControlContext.Provider>

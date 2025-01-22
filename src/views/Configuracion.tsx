@@ -1,18 +1,30 @@
 import { FloatingLabel } from "flowbite-react";
 import { SparklesCore } from "../ui/sparkles";
-
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useState } from "react";
+import useControlGasto from "../hooks/useControlGasto";
 
 const Configuracion = () => {
   const [age, setAge] = useState("");
+  const [mon, setMon] = useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    const target = event.target as HTMLInputElement;
+    const { name, value } = target;
+
+    if (name === "frecuencia") {
+      setAge(value);
+    } else if (name === "moneda") {
+      setMon(value);
+    }
   };
+
+  const { frecuencias, monedas, isChecked, handleCheckboxChange } =
+    useControlGasto();
+
   return (
     <section className=" overflow-hidden">
       <div className="h-screen flex overflow-hidden">
@@ -60,62 +72,56 @@ const Configuracion = () => {
               <div className="mt-6">
                 <form action="#" method="POST" className="space-y-6">
                   <div>
+                    
                     <FloatingLabel
                       variant="standard"
                       label="Ingresa tu sueldo base"
                       type="number"
                       min={1}
+                      className="custom-floating-label custom-input"
                     />
                   </div>
 
                   <div className="space-y-1">
-                  
-                    <FormControl
-                      variant="standard"
-                      className="w-full"
-                    >
+                    <FormControl variant="standard" className="w-full">
                       <InputLabel id="demo-simple-select-standard-label">
                         Frecuencia de pago
                       </InputLabel>
                       <Select
+                        name="frecuencia"
                         labelId="demo-simple-select-label"
                         id="demo-simple-select-standard"
                         value={age}
                         onChange={handleChange}
-                        label="Age"
+                        label="Frecuencia"
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {frecuencias.map((frecuencia) => (
+                          <MenuItem key={frecuencia.id} value={frecuencia.id}>
+                            {frecuencia.nombre}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
-                    
                   </div>
 
                   <div className="space-y-1">
-                  <FormControl
-                      variant="standard"
-                      className="w-full"
-                    >
+                    <FormControl variant="standard" className="w-full">
                       <InputLabel id="demo-simple-select-standard-label">
                         Moneda de pago
                       </InputLabel>
                       <Select
+                        name="moneda"
                         labelId="demo-simple-select-label"
                         id="demo-simple-select-standard"
-                        value={age}
+                        value={mon}
                         onChange={handleChange}
-                        label="Age"
+                        label="Moneda"
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {monedas.map((moneda) => (
+                          <MenuItem key={moneda.id} value={moneda.id}>
+                            {moneda.nombre} ({moneda.codigo}){" "}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </div>
@@ -123,18 +129,30 @@ const Configuracion = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <input
-                        id="remember-me"
-                        name="remember-me"
+                        id="bonificacion"
+                        name="bonificacion"
+                        onChange={handleCheckboxChange}
                         type="checkbox"
                         placeholder="Your password"
                         className="w-4 h-4 text-blue-600 border-gray-200 rounded focus:ring-blue-500"
                       />
                       <label className="block ml-2 text-sm text-gray-600">
                         {" "}
-                        Remember me{" "}
+                        ¿Tiene alguna bonificación?{" "}
                       </label>
                     </div>
                   </div>
+
+                  {isChecked && (
+                    <div>
+                      <FloatingLabel
+                        variant="standard"
+                        label="Ingresa su bonificación"
+                        type="number"
+                        min={1}
+                      />
+                    </div>
+                  )}
 
                   <div>
                     <button
