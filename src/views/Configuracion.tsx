@@ -4,10 +4,16 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useState } from "react";
+import { createRef,  useState } from "react";
 import useControlGasto from "../hooks/useControlGasto";
 
+
 const Configuracion = () => {
+
+
+    const sueldoRef = createRef<HTMLInputElement>();
+    const bonificacionRef = createRef<HTMLInputElement>();
+   
   const [age, setAge] = useState("");
   const [mon, setMon] = useState("");
 
@@ -17,16 +23,34 @@ const Configuracion = () => {
 
     if (name === "frecuencia") {
       setAge(value);
+     
+      
     } else if (name === "moneda") {
       setMon(value);
     }
   };
+  
 
-  const { frecuencias, monedas, isChecked, handleCheckboxChange } =
-    useControlGasto();
+  const handleSubmit=async(e: React.FormEvent<HTMLFormElement>)=>{
+      e.preventDefault()
+
+      const datos ={
+        sueldo:sueldoRef.current?.value,
+        bonificacion:bonificacionRef.current?.value ?? null,
+        moneda_id:mon,
+        frecuencia_id:age 
+      }
+
+      console.log(datos)
+  }
+
+
+
+  const { frecuencias, monedas, isChecked, handleCheckboxChange } =useControlGasto();
+  
 
   return (
-    <section className=" overflow-hidden">
+    <section className=" overflow-hidden text-transform: uppercase">
       <div className="h-screen flex overflow-hidden">
         <div className="h-screen w-1/2 bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
           <div className="text-center max-w-[40rem]">
@@ -64,13 +88,13 @@ const Configuracion = () => {
         <div className="flex w-1/2 items-center justify-center min-h-screen px-4 py-12 overflow-hidden sm:px-6 lg:px-20 xl:px-24">
           <div className="w-full max-w-xl mx-auto lg:w-96">
             <div>
-              <h2 className="mt-6 text-3xl font-extrabold text-gray-600">
-                Formulario
+              <h2 className="mt-6 text-3xl font-extrabold text-gray-600 text-transform: uppercase">
+              llene el formulario
               </h2>
             </div>
             <div className="mt-8">
               <div className="mt-6">
-                <form action="#" method="POST" className="space-y-6">
+                <form action="#" method="POST" className="space-y-6" noValidate onSubmit={handleSubmit}>
                   <div>
                     
                     <FloatingLabel
@@ -79,6 +103,7 @@ const Configuracion = () => {
                       type="number"
                       min={1}
                       className="custom-floating-label custom-input"
+                      ref={sueldoRef}
                     />
                   </div>
 
@@ -94,6 +119,7 @@ const Configuracion = () => {
                         value={age}
                         onChange={handleChange}
                         label="Frecuencia"
+                       
                       >
                         {frecuencias.map((frecuencia) => (
                           <MenuItem key={frecuencia.id} value={frecuencia.id}>
@@ -149,6 +175,7 @@ const Configuracion = () => {
                         variant="standard"
                         label="Ingresa su bonificación"
                         type="number"
+                        ref={bonificacionRef}
                         min={1}
                       />
                     </div>
