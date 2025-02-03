@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useEffect, useState } from "react"
-import { Frecuencia, Moneda } from "../types"
-import clienteAxios from "../config/axios"
+import { createContext, ReactNode, useState } from "react"
+
+
 
 
 
@@ -9,10 +9,9 @@ type ControlContextType={
     setErrores:(errores:string[])=>void,
     modal:boolean,
     handleClickModal:()=>void,
-    frecuencias:Frecuencia[],
-    monedas:Moneda[],
-    isChecked:boolean
-    handleCheckboxChange:()=>void
+    isChecked:boolean,
+    handleCheckboxChange:()=>void,
+    crearConfiguracion:()=>void
 }
 
 type ControlProviderProps={
@@ -26,8 +25,6 @@ const ControlProvider=({children}:ControlProviderProps)=>{
     const [errores, setErrores]=useState<string[]>([])
     const [modal, setModal]=useState(false)
     const [isChecked, setIsChecked]=useState(false)
-    const [frecuencias, setFrecuencias]=useState<Frecuencia[]>([])
-    const [monedas, setMonedas]=useState<Moneda[]>([])
 
 
     const handleClickModal=()=>{
@@ -39,29 +36,18 @@ const ControlProvider=({children}:ControlProviderProps)=>{
     }
 
 
-    const obtenerFrecuencias =async()=>{
-        try {
-            const {data}= await clienteAxios('api/frecuencia')
-            setFrecuencias(data.data)
-            
-        } catch (error) {
-            console.log(error)
-        }
+
+    const crearConfiguracion=async()=>{
+
     }
 
-    const obtenerMonedas=async()=>{
-        try {
-            const {data}=await clienteAxios('api/moneda')
-            setMonedas(data.data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
-    useEffect(()=>{
-        obtenerFrecuencias()
-        obtenerMonedas()
-    },[])
+
+   /* useEffect(()=>{
+        if(!user && error){
+
+        }
+    },[user,error])*/
    
 
     return (
@@ -71,10 +57,9 @@ const ControlProvider=({children}:ControlProviderProps)=>{
                 setErrores,
                 modal,
                 handleClickModal,
-                frecuencias,
-                monedas,
                 isChecked,
                 handleCheckboxChange,
+                crearConfiguracion
             }}>
                 {children}
         </ControlContext.Provider>

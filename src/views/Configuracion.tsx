@@ -6,6 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { createRef,  useState } from "react";
 import useControlGasto from "../hooks/useControlGasto";
+import useConfiguracion from "../hooks/useConfiguracion";
 
 
 const Configuracion = () => {
@@ -46,7 +47,8 @@ const Configuracion = () => {
 
 
 
-  const { frecuencias, monedas, isChecked, handleCheckboxChange } =useControlGasto();
+  const { isChecked, handleCheckboxChange } =useControlGasto();
+  const {frecuencias,monedas}=useConfiguracion()
   
 
   return (

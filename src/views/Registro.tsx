@@ -12,7 +12,7 @@ const Registro = () => {
   const passwordRef = createRef<HTMLInputElement>();
   const passwordConfirmationRef = createRef<HTMLInputElement>();
 
- // const [errores, setErrores]=useState([])
+
   const{setErrores}=useControl()
   const {registro}=useAuth({
     middleware:'guest',
